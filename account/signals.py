@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import CustomUser
-from project.account.tasks import send_email
+from .tasks import send_email
 
 
 @receiver(post_save, sender=CustomUser)
