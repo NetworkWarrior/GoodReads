@@ -6,21 +6,26 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from .forms import UserCreateForm, UserUpdateForm
-from django.views.generic import ListView
 from .models import CustomUser
 
 
 class RegisterView(View):
     def get(self, request):
-        return render(request, 'account/register.html', {'form': UserCreateForm()})
+        create_form = UserCreateForm()
+        context = {
+            "form":create_form
+        }
+        return render(request, 'account/register.html', context)
 
     def post(self, request):
         create_form = UserCreateForm(data=request.POST)
+
         if create_form.is_valid():
             create_form.save()
             return redirect('account:login')
         else:
-            return render(request, 'account/register.html', {'form': create_form})
+            context = {"form":create_form}
+            return render(request, 'account/register.html', context)
 
 
 class LoginView(View):
